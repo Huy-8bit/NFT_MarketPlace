@@ -1,27 +1,5 @@
 // SPDX-License-Identifier: MIT
 
-// NFT token with ERC 721
-// import "hardhat/console.sol";
-// import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-// import "@openzeppelin/contracts/access/Ownable.sol";
-// import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-// pragma solidity ^0.8.18;
-// contract NFT_contract_ERC721 is ERC721URIStorage, Ownable {
-//     uint256 public tokenCounter;
-//     constructor() ERC721("NFT_contract_ERC721", "NFT721") {
-//         tokenCounter = 0;
-//     }
-//     function createCollectible(
-//         string memory tokenURI
-//     ) public onlyOwner returns (uint256) {
-//         uint256 newItemId = tokenCounter;
-//         _safeMint(msg.sender, newItemId);
-//         _setTokenURI(newItemId, tokenURI);
-//         tokenCounter = tokenCounter + 1;
-//         return newItemId;
-//     }
-// }
-
 pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
@@ -63,14 +41,13 @@ contract WibuToken is ERC20("Wibu Token", "WIBU"), Ownable {
     }
 }
 
-contract NFTMarketplace is ERC721URIStorage {
+contract Wibu_NFTMarketplace is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     Counters.Counter private _itemsSold;
     address payable owner;
     uint256 listPrice = 0.01 ether;
     WibuToken private wibuToken;
-
     struct ListedToken {
         uint256 tokenId;
         address payable owner;
@@ -126,7 +103,14 @@ contract NFTMarketplace is ERC721URIStorage {
         return _tokenIds.current();
     }
 
-    function createToken(string memory tokenURI, uint256 price) public payable {
+    function createToken(
+        address _owner,
+        string memory tokenURI,
+        uint256 price
+    ) public payable {
+        // check if address owner true then continue create token
+        require(_owner == msg.sender);
+
         console.log("createToken");
         uint256 newTokenId = _tokenIds.current();
         _tokenIds.increment();
@@ -208,10 +192,7 @@ contract NFTMarketplace is ERC721URIStorage {
     function executeSale(uint256 tokenId) public payable {
         uint price = idToListedToken[tokenId].price;
         address seller = idToListedToken[tokenId].seller;
-        require(
-            wibuToken.transferFrom(msg.sender, address(this), price),
-            "Token transfer failed"
-        );
+        require(wibuToken.transfer(seller, price), "Token transfer failed");
 
         idToListedToken[tokenId].currentlyListed = true;
         idToListedToken[tokenId].seller = payable(msg.sender);
@@ -222,5 +203,13 @@ contract NFTMarketplace is ERC721URIStorage {
 
         payable(owner).transfer(listPrice);
         payable(seller).transfer(price);
+    }
+
+    function transction_nft(
+        address _from,
+        address _to,
+        uint256 token_id
+    ) public {
+        _transfer(_from, _to, token_id);
     }
 }

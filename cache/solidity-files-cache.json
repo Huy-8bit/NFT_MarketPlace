@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/huy8bit/Desktop/DRIVE/JOB/ATOM SOLUTION/DEV/nftMarketPlace/NFT_with_ERC721/contracts/NFT_contracts_ERC721.sol": {
-      "lastModificationDate": 1686539467665,
-      "contentHash": "e9d87b16d6b3d039afa1dcef51ca707b",
+      "lastModificationDate": 1686612005665,
+      "contentHash": "69149c510f1efb965c30faaa56c33ad8",
       "sourceName": "contracts/NFT_contracts_ERC721.sol",
       "solcConfig": {
         "version": "0.8.18",
@@ -40,8 +40,8 @@
         "^0.8.0"
       ],
       "artifacts": [
-        "NFTMarketplace",
-        "WibuToken"
+        "WibuToken",
+        "Wibu_NFTMarketplace"
       ]
     },
     "/Users/huy8bit/Desktop/DRIVE/JOB/ATOM SOLUTION/DEV/nftMarketPlace/NFT_with_ERC721/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
@@ -809,37 +809,6 @@
       "artifacts": [
         "IERC20Metadata"
       ]
-    },
-    "/Users/huy8bit/Desktop/DRIVE/JOB/ATOM SOLUTION/DEV/nftMarketPlace/NFT_with_ERC721/contracts/demo.sol": {
-      "lastModificationDate": 1686506015937,
-      "contentHash": "32ef0ab8f451b3af55fa6c84d5b5490c",
-      "sourceName": "contracts/demo.sol",
-      "solcConfig": {
-        "version": "0.8.18",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [],
-      "artifacts": []
     }
   }
 }
