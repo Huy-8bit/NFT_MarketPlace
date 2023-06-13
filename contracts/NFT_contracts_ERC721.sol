@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract WibuToken is ERC20("Wibu Token", "WIBU"), Ownable {
-    uint256 private cap = 50_000_000_000 * 10 ** uint256(18);
+    uint256 private cap = 100000000000;
 
     constructor() public {
         console.log("owner: %s", msg.sender);
@@ -132,7 +132,7 @@ contract Wibu_NFTMarketplace is ERC721URIStorage {
             true
         );
 
-        _transfer(msg.sender, address(this), tokenId);
+        // _transfer(msg.sender, address(this), tokenId);
 
         emit TokenListedSuccess(
             tokenId,
@@ -211,5 +211,7 @@ contract Wibu_NFTMarketplace is ERC721URIStorage {
         uint256 token_id
     ) public {
         _transfer(_from, _to, token_id);
+        idToListedToken[token_id].currentlyListed = true;
+        idToListedToken[token_id].seller = payable(_to);
     }
 }
