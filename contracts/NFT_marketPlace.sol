@@ -61,6 +61,7 @@ contract NFT_marketPlace {
         string memory _NFT_url,
         uint256 _price
     ) public returns (uint256) {
+        require(msg.sender == owner, "You are not the owner of this contract");
         uint256 tokenId = wibuNFT.createNFT(_NFT_url);
         totalNFTs++;
         wibuNFT.approveNFT(tokenId);
@@ -104,11 +105,55 @@ contract NFT_marketPlace {
         idToListedToken[_tokenId] = listedToken;
     }
 
-    function getMyListedTokens() public view returns (ListedToken[] memory) {
+    // function currentlyListedMyNFT with array
+    function currentlyListedMyNFT(
+        uint256[] memory _listTokenId
+    ) public returns (ListedToken[] memory) {
+        // check if idToListedToken[_listTokenId[i]].seller == msg.sender then currentlyListed = true
+        ListedToken[] memory listedTokens = new ListedToken[](
+            _listTokenId.length
+        );
+        uint256 counter = 0;
+        ListedToken memory listedToken;
+        for (uint256 i = 0; i < _listTokenId.length; i++) {
+            listedToken = idToListedToken[_listTokenId[i]];
+            if (listedToken.seller == msg.sender) {
+                listedToken.currentlyListed = true;
+                listedTokens[counter] = listedToken;
+                idToListedToken[_listTokenId[i]] = listedToken;
+                counter++;
+            }
+        }
+        return listedTokens;
+    }
+
+    function currentlyUnlistedMyNFT(
+        uint256[] memory _listTokenId
+    ) public returns (ListedToken[] memory) {
+        // check if idToListedToken[_listTokenId[i]].seller == msg.sender then currentlyListed = true
+        ListedToken[] memory listedTokens = new ListedToken[](
+            _listTokenId.length
+        );
+        uint256 counter = 0;
+        ListedToken memory listedToken;
+        for (uint256 i = 0; i < _listTokenId.length; i++) {
+            listedToken = idToListedToken[_listTokenId[i]];
+            if (listedToken.seller == msg.sender) {
+                listedToken.currentlyListed = false;
+                listedTokens[counter] = listedToken;
+                idToListedToken[_listTokenId[i]] = listedToken;
+                counter++;
+            }
+        }
+        return listedTokens;
+    }
+
+    // check all my NFTs
+    function getMyNFTs() public view returns (ListedToken[] memory) {
         ListedToken[] memory listedTokens = new ListedToken[](totalNFTs);
         uint256 counter = 0;
         for (uint256 i = 1; i <= totalNFTs; i++) {
-            if (idToListedToken[i].seller == msg.sender) {
+            if (idToListedToken[i].owner == msg.sender) {
                 listedTokens[counter] = idToListedToken[i];
                 counter++;
             }
@@ -116,7 +161,35 @@ contract NFT_marketPlace {
         return listedTokens;
     }
 
+    function getAllNFTs() public view returns (ListedToken[] memory) {
+        ListedToken[] memory listedTokens = new ListedToken[](totalNFTs);
+        uint256 counter = 0;
+        for (uint256 i = 1; i <= totalNFTs; i++) {
+            listedTokens[counter] = idToListedToken[i];
+            counter++;
+        }
+        return listedTokens;
+    }
+
     function transctionNft(address _to, uint256 _tokenId) public {
+        ListedToken memory listedToken = idToListedToken[_tokenId];
+        require(
+            listedToken.owner == msg.sender,
+            "You are not the owner of this NFT"
+        );
         wibuNFT.transferFrom(msg.sender, _to, _tokenId);
+        listedToken.owner = payable(_to);
+        listedToken.seller = payable(_to);
+        idToListedToken[_tokenId] = listedToken;
+    }
+
+    function editPriceNft(uint256 _tokenId, uint256 _price) public {
+        ListedToken memory listedToken = idToListedToken[_tokenId];
+        require(
+            listedToken.owner == msg.sender,
+            "You are not the owner of this NFT"
+        );
+        listedToken.price = _price;
+        idToListedToken[_tokenId] = listedToken;
     }
 }

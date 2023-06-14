@@ -33,6 +33,10 @@ contract WibuNFT is ERC721URIStorage {
         approve(owner, _tokenId);
     }
 
+    function getNFTURI(uint256 tokenId) public view returns (string memory) {
+        return tokenURI(tokenId);
+    }
+
     function transferNFT(address _to, uint256 _tokenId) public {
         safeTransferFrom(msg.sender, _to, _tokenId);
     }
