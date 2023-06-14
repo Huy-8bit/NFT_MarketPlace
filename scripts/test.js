@@ -38,17 +38,27 @@ describe("NFTMarketplace", function () {
     //   const newToken = await wibuMarketPlace.createNft(link_nft, pre_name_nft);
     //   console.log("newToken: ", newToken);
     // });
-    // it("get all nft ", async function () {
-    //   const allNFT = await wibuMarketPlace.getAllListedTokens();
-    //   console.log("allNFT: ", allNFT);
+    it("get all nft ", async function () {
+      const allNFT = await wibuMarketPlace.getAllListedTokens();
+      console.log("allNFT: ", allNFT);
+    });
+
+    // it("approve nft", async function () {
+    //   const tokenId = 6;
+    //   const WibuNFT = await ethers.getContractFactory("WibuNFT");
+    //   const wibuNFT = await WibuNFT.attach(NFT_address);
+    //   await wibuNFT.approve(NFTMarketPlace_address, tokenId);
     // });
 
-    it("buy nft ", async function () {
-      const tokenId = 7;
-      const WibuNFT = await ethers.getContractFactory("WibuNFT");
-      const wibuNFT = await WibuNFT.attach(NFT_address);
-      await wibuNFT.approve(NFTMarketPlace_address, tokenId);
-    });
+    // it("buy nft ", async function () {
+    //   const tokenId = 2;
+    //   const WibuToken = await ethers.getContractFactory("WibuToken");
+    //   const wibuToken = await WibuToken.attach(tokenAddress);
+    //   await wibuToken.approve(NFTMarketPlace_address, 1000);
+    //   const buyNFT = await wibuMarketPlace.buyNft(tokenId);
+
+    //   console.log("buyNFT: ", buyNFT);
+    // });
 
     // it("transfer nft", async function () {
     //   const tokenId = 2;

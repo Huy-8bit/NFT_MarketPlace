@@ -104,6 +104,18 @@ contract NFT_marketPlace {
         idToListedToken[_tokenId] = listedToken;
     }
 
+    function getMyListedTokens() public view returns (ListedToken[] memory) {
+        ListedToken[] memory listedTokens = new ListedToken[](totalNFTs);
+        uint256 counter = 0;
+        for (uint256 i = 1; i <= totalNFTs; i++) {
+            if (idToListedToken[i].seller == msg.sender) {
+                listedTokens[counter] = idToListedToken[i];
+                counter++;
+            }
+        }
+        return listedTokens;
+    }
+
     function transctionNft(address _to, uint256 _tokenId) public {
         wibuNFT.transferFrom(msg.sender, _to, _tokenId);
     }
