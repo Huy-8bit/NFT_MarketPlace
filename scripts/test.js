@@ -3,86 +3,108 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const fs = require("fs");
+const { id } = require("ethers/lib/utils");
 
 // comandline: npx hardhat test scripts/test.js --network sepolia
 
 describe("NFTMarketplace", function () {
-  const NFT_address = "0xF5df9D64Bc017d85615eDaDc9A529Ce0F0149f3a";
-  const addres_recipient = "0xC77E5F3B7099bA3b3A4b20292d010696b97177fc";
-  const tokenAddress = "0x3837e290fe5dF1222177f7478221A9E34fFAb6F8";
-  let nft_marketplace;
-  let nft;
+  const tokenAddress = "0x88F0c848e2D1e95aCb90a12dA82eb1bbE738a7A0";
+  const NFT_address = "0x59627572dc94c3B24ab45D2D2f8434E50B87D76A";
+  const NFTMarketPlace_address = "0xB1Ed067698a163BE18F7Ba7e11a0b61fD658Fd3D";
+  const addres_recipient = "0xFd883589837bEEFf3dFdB97A821E0c71FF9BA20A";
+
+  let WibuMarketPlace;
+  let wibuMarketPlace;
   let owner;
 
   beforeEach(async function () {
-    nft_marketplace = await ethers.getContractFactory("Wibu_NFTMarketplace");
-    nft = await nft_marketplace.attach(NFT_address);
+    WibuMarketPlace = await ethers.getContractFactory("NFT_marketPlace");
+    wibuMarketPlace = await WibuMarketPlace.attach(NFTMarketPlace_address);
     [owner] = await ethers.getSigners();
   });
 
   describe("Deployment", function () {
     it("Should set the right owner", async function () {
       console.log("owner.address: ", owner.address);
-      console.log("nft.get_owner().address: ", await nft.get_owner());
-      console.log("nft.address: ", nft.address);
-      // expect(await nft.get_owner()).to.equal(owner.address);
+      console.log("wibuMarketPlace.owner: ", await wibuMarketPlace.get_owner());
+      expect(await wibuMarketPlace.get_owner()).to.equal(owner.address);
+    });
+    // it("create nft ", async function () {
+    //   const link_nft =
+    //     "https://wallpapers.com/images/high/sasuke-silhouette-4k-sqbl3rfuo2qpepuh.webp";
+    //   const pre_name_nft = 1000;
+    //   console.log("link nft: ", link_nft);
+    //   console.log("pre_name_nft: ", pre_name_nft);
+    //   const newToken = await wibuMarketPlace.createNft(link_nft, pre_name_nft);
+    //   console.log("newToken: ", newToken);
+    // });
+    // it("get all nft ", async function () {
+    //   const allNFT = await wibuMarketPlace.getAllListedTokens();
+    //   console.log("allNFT: ", allNFT);
+    // });
+
+    it("buy nft ", async function () {
+      const tokenId = 7;
+      const WibuNFT = await ethers.getContractFactory("WibuNFT");
+      const wibuNFT = await WibuNFT.attach(NFT_address);
+      await wibuNFT.approve(NFTMarketPlace_address, tokenId);
     });
 
-    it("create nft ", async function () {
-      const link_nft =
-        "https://wallpapers.com/images/hd/naruto-shippuden-jiraiya-cosplay-cgzhsbq4xok3cftb.webp";
-      const pre_name_nft = 45000000;
-      console.log("link nft: ", link_nft);
-      console.log("pre_name_nft: ", pre_name_nft);
-      const newToken = await nft.createToken(
-        owner.address,
-        link_nft,
-        pre_name_nft,
-        {
-          value: ethers.utils.parseEther("0.01"),
-        }
-      );
-      console.log("newToken: ", newToken);
-    });
-
-    // it("get all nft", async function () {
-    //   const all_nft = await nft.getAllNFTs();
-    //   console.log("all nft: ", all_nft);
-    // });
-
-    // it("get my nft", async function () {
-    //   const my_nft = await nft.getMyNFTs();
-    //   console.log("my_nft: ", my_nft);
-    // });
-
-    // describe("transfer nft", function () {
-    //   it("check info from buy nft", async function () {
-    //     const WibuToken = await ethers.getContractFactory("WibuToken");
-    //     let wibuToken = await WibuToken.attach(tokenAddress);
-    //     const balance = await wibuToken.balanceOf(owner.address);
-    //     console.log("Số dư token của chủ sở hữu:", balance.toString());
-    //   });
-    //   it("transfer nft", async function () {
-    //     const token_id = 2;
-    //     await nft.executeSale(token_id, {
-    //       value: ethers.utils.parseEther("0.01"),
-    //     });
-    //   });
-    // it("transction nft", async function () {
-    //   const token_id = 1;
-    //   console.log("transction nft to ", addres_recipient);
-    //   const transfer_nft = await nft.transction_nft(
-    //     nft.address,
-    //     addres_recipient,
-    //     token_id
-    //   );
-    // });
-    // it("buy nft", async function () {
-    //   const token_id = 2;
-    //   console.log("token_id: ", token_id);
-    //   console.log("address buy nft: ", owner.address);
-    //   await nft.executeSale(token_id);
-    // });
+    // it("transfer nft", async function () {
+    //   const tokenId = 2;
+    //   const WibuNFT = await ethers.getContractFactory("WibuNFT");
+    //   const wibuNFT = await WibuNFT.attach(NFT_address);
+    //   await wibuNFT.approve(owner.address, tokenId);
+    //   const transferNFT = await wibuNFT.transferNFT(addres_recipient, tokenId);
     // });
   });
 });
+
+// describe("WibuToken", function () {
+//   // get the contract instance
+
+//   let wibuToken;
+
+//   let owner;
+//   let addr1;
+//   let addr2;
+//   let addrs;
+//   const addres_recipient = "0xFd883589837bEEFf3dFdB97A821E0c71FF9BA20A";
+//   let tokenAddress = "0x88F0c848e2D1e95aCb90a12dA82eb1bbE738a7A0";
+
+//   beforeEach(async function () {
+//     const WibuToken = await ethers.getContractFactory("WibuToken");
+//     wibuToken = await WibuToken.attach(tokenAddress);
+//     [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
+//     console.log("wibu token address: ", wibuToken.address);
+//   });
+
+//   describe("Deployment", function () {
+//     it("Should set the right owner", async function () {
+//       expect(await wibuToken.owner()).to.equal(owner.address);
+//       console.log("total supply: ", await wibuToken.totalSupply());
+//     });
+//   });
+
+// describe("Transactions", function () {
+//   it("transfer 20000000000 tokens from owner to addres_recipient", async function () {
+//     console.log("owner: ", owner.address);
+//     console.log("addres_recipient: ", addres_recipient);
+//     console.log("before transfer");
+//     console.log("owner balance: ", await wibuToken.balanceOf(owner.address));
+//     console.log(
+//       "addres_recipient balance: ",
+//       await wibuToken.balanceOf(addres_recipient)
+//     );
+//     await wibuToken.transfer(addres_recipient, 20000000000);
+
+//     console.log("after transfer");
+//     console.log("owner balance: ", await wibuToken.balanceOf(owner.address));
+//     console.log(
+//       "addr1 balance: ",
+//       await wibuToken.balanceOf(addres_recipient)
+//     );
+//     //   expect(await wibuToken.balanceOf(addres_recipient)).to.equal(1000);
+//   });
+// });
+// });

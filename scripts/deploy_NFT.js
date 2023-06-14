@@ -8,32 +8,44 @@ const utils = ethers.utils;
 
 async function main() {
   const [deployer] = await ethers.getSigners();
+
   console.log("Deploying contracts with the account:", deployer.address);
   console.log("Account balance:", (await deployer.getBalance()).toString());
+  let addressFilePath = "wibuTokenAddress.txt";
 
   // deploy WibuToken
   // const WibuToken = await ethers.getContractFactory("WibuToken");
   // const wibuToken = await WibuToken.deploy();
   // await wibuToken.deployed();
-  // // save in file
-  // let addressFilePath = "wibuTokenAddress.txt";
   // fs.writeFileSync(addressFilePath, wibuToken.address);
-
   // console.log("WibuToken address:", wibuToken.address);
-
   // console.log(
   //   "Token total supply:",
   //   (await wibuToken.totalSupply()).toString()
   // );
 
   // deploy NFT
-  const NFT = await ethers.getContractFactory("Wibu_NFTMarketplace");
-  const nft = await NFT.deploy("0x3837e290fe5dF1222177f7478221A9E34fFAb6F8");
+  // const NFT = await ethers.getContractFactory("WibuNFT");
+  // const nft = await NFT.deploy();
 
-  console.log("NFT address: ", nft.address);
+  // console.log("NFT address: ", nft.address);
 
-  addressFilePath = "NFT_address.txt";
-  fs.writeFileSync(addressFilePath, nft.address);
+  // addressFilePath = "NFT_address.txt";
+  // fs.writeFileSync(addressFilePath, nft.address);
+
+  // deploy NFTMarketplace
+  const Wibu_NFTMarketplace = await ethers.getContractFactory(
+    "NFT_marketPlace"
+  );
+  const wibuMarketPlace = await Wibu_NFTMarketplace.deploy(
+    "0x59627572dc94c3B24ab45D2D2f8434E50B87D76A",
+    "0x88F0c848e2D1e95aCb90a12dA82eb1bbE738a7A0"
+  );
+
+  console.log("wibuMarketPlace address: ", wibuMarketPlace.address);
+
+  addressFilePath = "wibuMarketPlace.txt";
+  fs.writeFileSync(addressFilePath, wibuMarketPlace.address);
 }
 
 main()
