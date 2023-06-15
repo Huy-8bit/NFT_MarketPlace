@@ -7,9 +7,9 @@ const { id } = require("ethers/lib/utils");
 
 // comandline: npx hardhat test scripts/test.js --network sepolia
 
-const wibuMarketPlaceFilePath = "wibuMarketPlace.json";
-const nftFilePath = "nft.json";
-const wibuTokenFilePath = "wibuToken.json";
+const wibuMarketPlaceFilePath = "./deployment/wibuMarketPlace.json";
+const nftFilePath = "./deployment/nft.json";
+const wibuTokenFilePath = "./deployment/wibuToken.json";
 
 // Đọc dữ liệu từ tệp JSON của WibuMarketPlace
 const wibuMarketPlaceJsonData = fs.readFileSync(
@@ -103,10 +103,10 @@ describe("NFTMarketplace", function () {
       expect(await wibuMarketPlace.get_owner()).to.equal(owner.address);
     });
 
-    it("get all nft ", async function () {
-      const allNFT = await wibuMarketPlace.getAllNFTs();
-      console.log("allNFT: ", allNFT);
-    });
+    // it("get all nft ", async function () {
+    //   const allNFT = await wibuMarketPlace.getAllNFTs();
+    //   console.log("allNFT: ", allNFT);
+    // });
 
     // it("get all my nft ", async function () {
     //   const allMyNFT = await wibuMarketPlace.getMyNFTs();
@@ -117,6 +117,13 @@ describe("NFTMarketplace", function () {
     //   }
     // });
 
+    it("get All Listed Tokens", async function () {
+      const allListedTokens = await wibuMarketPlace.getAllListedTokens();
+      for (let i = 0; i < allListedTokens.length; i++) {
+        console.log(allListedTokens[i]);
+      }
+    });
+
     // it(" Edit price nft ", async function () {
     //   const tokenId = 5;
     //   const price = 340000000;
@@ -125,7 +132,7 @@ describe("NFTMarketplace", function () {
     // });
 
     // it("approve nft", async function () {
-    //   const tokenIds = [2, 5];
+    //   const tokenIds = [5];
     //   const WibuNFT = await ethers.getContractFactory("WibuNFT");
     //   const wibuNFT = await WibuNFT.attach(NFTAddress);
     //   for (let i = 0; i < tokenIds.length; i++) {
