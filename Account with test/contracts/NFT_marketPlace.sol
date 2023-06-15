@@ -126,25 +126,17 @@ contract NFT_marketPlace {
         return listedTokens;
     }
 
-    function currentlyUnlistedMyNFT(
-        uint256[] memory _listTokenId
-    ) public returns (ListedToken[] memory) {
-        // check if idToListedToken[_listTokenId[i]].seller == msg.sender then currentlyListed = true
-        ListedToken[] memory listedTokens = new ListedToken[](
-            _listTokenId.length
+    function removeFromMarket(uint256 _tokenId) public {
+        ListedToken storage listedToken = idToListedToken[_tokenId];
+
+        require(
+            listedToken.seller == msg.sender,
+            "You are not the seller of this token"
         );
-        uint256 counter = 0;
-        ListedToken memory listedToken;
-        for (uint256 i = 0; i < _listTokenId.length; i++) {
-            listedToken = idToListedToken[_listTokenId[i]];
-            if (listedToken.seller == msg.sender) {
-                listedToken.currentlyListed = false;
-                listedTokens[counter] = listedToken;
-                idToListedToken[_listTokenId[i]] = listedToken;
-                counter++;
-            }
-        }
-        return listedTokens;
+
+        delete idToListedToken[_tokenId];
+
+        // Thực hiện các hành động khác sau khi xoá thành công khỏi thị trường
     }
 
     // check all my NFTs

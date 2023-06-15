@@ -15,7 +15,7 @@ async function main() {
   console.log("Deploying contracts with the account:", deployer.address);
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  // deploy WibuToken
+  // // deploy WibuToken
   // const WibuToken = await ethers.getContractFactory("WibuToken");
   // const wibuToken = await WibuToken.deploy();
   // await wibuToken.deployed();
@@ -30,7 +30,7 @@ async function main() {
   // const wibuTokenJsonData = JSON.stringify(wibuTokenData, null, 2);
   // fs.writeFileSync(wibuTokenFilePath, wibuTokenJsonData);
 
-  // deploy NFT
+  // // deploy NFT
   // const NFT = await ethers.getContractFactory("WibuNFT");
   // const nft = await NFT.deploy();
   // await nft.deployed();
