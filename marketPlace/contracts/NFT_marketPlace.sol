@@ -104,28 +104,6 @@ contract NFT_marketPlace {
         idToListedToken[_tokenId] = listedToken;
     }
 
-    // function currentlyListedMyNFT with array
-    function currentlyListedMyNFT(
-        uint256[] memory _listTokenId
-    ) public returns (ListedToken[] memory) {
-        // check if idToListedToken[_listTokenId[i]].seller == msg.sender then currentlyListed = true
-        ListedToken[] memory listedTokens = new ListedToken[](
-            _listTokenId.length
-        );
-        uint256 counter = 0;
-        ListedToken memory listedToken;
-        for (uint256 i = 0; i < _listTokenId.length; i++) {
-            listedToken = idToListedToken[_listTokenId[i]];
-            if (listedToken.seller == msg.sender) {
-                listedToken.currentlyListed = true;
-                listedTokens[counter] = listedToken;
-                idToListedToken[_listTokenId[i]] = listedToken;
-                counter++;
-            }
-        }
-        return listedTokens;
-    }
-
     function removeFromMarket(uint256 _tokenId) public {
         ListedToken storage listedToken = idToListedToken[_tokenId];
 

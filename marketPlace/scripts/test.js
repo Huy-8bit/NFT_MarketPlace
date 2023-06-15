@@ -167,7 +167,7 @@ describe("NFTMarketplace", function () {
     // });
 
     // it("approve nft", async function () {
-    //   const tokenIds = [1];
+    //   const tokenIds = [5];
     //   const WibuNFT = await ethers.getContractFactory("WibuNFT");
     //   const wibuNFT = await WibuNFT.attach(NFTAddress);
     //   for (let i = 0; i < tokenIds.length; i++) {
@@ -176,7 +176,7 @@ describe("NFTMarketplace", function () {
     // });
 
     // it("buy nft ", async function () {
-    //   const tokenId = 6;
+    //   const tokenId = 5;
     //   const NftBuyInfo = await wibuMarketPlace.getListedTokenForId(tokenId);
     //   const WibuToken = await ethers.getContractFactory("WibuToken");
     //   const wibuToken = await WibuToken.attach(tokenAddress);
@@ -184,16 +184,9 @@ describe("NFTMarketplace", function () {
     //   const buyNFT = await wibuMarketPlace.buyNft(tokenId);
     //   console.log("buyNFT: ", buyNFT);
     // });
-    // it("currently Listed My NFTs", async function () {
-    //   const listCurrentlyListedMyNFTs = [6];
-    //   const currentlyListedMyNFTs = await wibuMarketPlace.currentlyListedMyNFT(
-    //     listCurrentlyListedMyNFTs
-    //   );
-    //   console.log("currentlyListedMyNFTs: ", currentlyListedMyNFTs);
-    // });
 
     // it("delete NFT in market", async function () {
-    //   const listCurrentlyListedMyNFTs = 3;
+    //   const listCurrentlyListedMyNFTs = 5;
     //   const currentlyListedMyNFTs = await wibuMarketPlace.removeFromMarket(
     //     listCurrentlyListedMyNFTs
     //   );
