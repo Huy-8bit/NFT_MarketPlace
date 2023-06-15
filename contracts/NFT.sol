@@ -24,13 +24,27 @@ contract WibuNFT is ERC721URIStorage {
     function createNFT(string memory _NFT_url) public returns (uint256) {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
+
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, _NFT_url);
+
         return newItemId;
     }
 
     function approveNFT(uint256 _tokenId) public {
         approve(owner, _tokenId);
+    }
+
+    function getAllMyNft() public view returns (uint256[] memory) {
+        uint256[] memory result = new uint256[](_tokenIds.current());
+        uint256 counter = 0;
+        for (uint256 i = 1; i <= _tokenIds.current(); i++) {
+            if (ownerOf(i) == msg.sender) {
+                result[counter] = i;
+                counter++;
+            }
+        }
+        return result;
     }
 
     function getNFTURI(uint256 tokenId) public view returns (string memory) {

@@ -5,8 +5,10 @@ require("hardhat-deploy-ethers");
 const utils = ethers.utils;
 
 // comandline: npx hardhat run scripts/deploy_NFT.js --network sepolia
+
 const nftFilePath = "./deployment/nft.json";
 const wibuTokenFilePath = "./deployment/wibuToken.json";
+const wibuMarketPlaceFilePath = "./deployment/wibuMarketPlace.json";
 async function main() {
   const [deployer] = await ethers.getSigners();
 
@@ -26,8 +28,7 @@ async function main() {
   //   tokenAddress: wibuToken.address,
   // };
   // const wibuTokenJsonData = JSON.stringify(wibuTokenData, null, 2);
-  // const wibuTokenFilePath = "./deployment/wibuToken.json";
-  // fs.appendFileSync(wibuTokenFilePath, wibuTokenJsonData);
+  // fs.writeFileSync(wibuTokenFilePath, wibuTokenJsonData);
 
   // deploy NFT
   // const NFT = await ethers.getContractFactory("WibuNFT");
@@ -38,37 +39,34 @@ async function main() {
   //   NFTAddress: nft.address,
   // };
   // const nftJsonData = JSON.stringify(nftData, null, 2);
-  // const nftFilePath = "./deployment/nft.json";
-  // fs.appendFileSync(nftFilePath, nftJsonData);
+  // fs.writeFileSync(nftFilePath, nftJsonData);
 
   // deploy NFTMarketplace
+  const nftJsonData = fs.readFileSync(nftFilePath, "utf-8");
+  const nftData = JSON.parse(nftJsonData);
+  const NFTAddress = nftData.NFTAddress;
 
-  // const nftJsonData = fs.readFileSync(nftFilePath, "utf-8");
-  // const nftData = JSON.parse(nftJsonData);
-  // const NFTAddress = nftData.NFTAddress;
+  const wibuTokenJsonData = fs.readFileSync(wibuTokenFilePath, "utf-8");
+  const wibuTokenData = JSON.parse(wibuTokenJsonData);
+  const tokenAddress = wibuTokenData.tokenAddress;
 
-  // const wibuTokenJsonData = fs.readFileSync(wibuTokenFilePath, "utf-8");
-  // const wibuTokenData = JSON.parse(wibuTokenJsonData);
-  // const tokenAddress = wibuTokenData.tokenAddress;
+  const Wibu_NFTMarketplace = await ethers.getContractFactory(
+    "NFT_marketPlace"
+  );
+  console.log("NFTAddress: ", NFTAddress);
+  console.log("tokenAddress: ", tokenAddress);
 
-  // const Wibu_NFTMarketplace = await ethers.getContractFactory(
-  //   "NFT_marketPlace"
-  // );
-  // console.log("NFTAddress: ", NFTAddress);
-  // console.log("tokenAddress: ", tokenAddress);
-
-  // const wibuMarketPlace = await Wibu_NFTMarketplace.deploy(
-  //   NFTAddress,
-  //   tokenAddress
-  // );
-  // await wibuMarketPlace.deployed();
-  // console.log("WibuMarketPlace address: ", wibuMarketPlace.address);
-  // const wibuMarketPlaceData = {
-  //   wibuMarketPlaceAddress: wibuMarketPlace.address,
-  // };
-  // const wibuMarketPlaceJsonData = JSON.stringify(wibuMarketPlaceData, null, 2);
-  // const wibuMarketPlaceFilePath = "./deployment/wibuMarketPlace.json";
-  // fs.appendFileSync(wibuMarketPlaceFilePath, wibuMarketPlaceJsonData);
+  const wibuMarketPlace = await Wibu_NFTMarketplace.deploy(
+    NFTAddress,
+    tokenAddress
+  );
+  await wibuMarketPlace.deployed();
+  console.log("WibuMarketPlace address: ", wibuMarketPlace.address);
+  const wibuMarketPlaceData = {
+    wibuMarketPlaceAddress: wibuMarketPlace.address,
+  };
+  const wibuMarketPlaceJsonData = JSON.stringify(wibuMarketPlaceData, null, 2);
+  fs.writeFileSync(wibuMarketPlaceFilePath, wibuMarketPlaceJsonData);
 
   console.log("Deployment completed. Data saved to respective JSON files.");
 }

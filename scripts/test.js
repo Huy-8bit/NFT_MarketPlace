@@ -44,6 +44,8 @@ describe("NFTMarketplace", function () {
   beforeEach(async function () {
     WibuMarketPlace = await ethers.getContractFactory("NFT_marketPlace");
     wibuMarketPlace = await WibuMarketPlace.attach(wibuMarketPlaceAddress);
+    WibuNFT = await ethers.getContractFactory("WibuNFT");
+    wibuNFT = await WibuNFT.attach(NFTAddress);
     [owner] = await ethers.getSigners();
   });
 
@@ -51,46 +53,36 @@ describe("NFTMarketplace", function () {
     // it("create nft 1 ", async function () {
     //   const link_nft =
     //     "https://wallpapers.com/images/high/sasuke-silhouette-4k-sqbl3rfuo2qpepuh.webp";
-    //   const pre_name_nft = 700000000;
     //   console.log("link nft: ", link_nft);
-    //   console.log("pre_name_nft: ", pre_name_nft);
-    //   const newToken = await wibuMarketPlace.createNft(link_nft, pre_name_nft);
+    //   const newToken = await wibuNFT.createNFT(link_nft);
     //   console.log("newToken: ", newToken);
     // });
     // it("create nft 2 ", async function () {
     //   const link_nft =
     //     "https://wallpapers.com/images/high/sasuke-black-suit-4k-ofm5xplapuoiprp8.webp";
-    //   const pre_name_nft = 256000000;
     //   console.log("link nft: ", link_nft);
-    //   console.log("pre_name_nft: ", pre_name_nft);
-    //   const newToken = await wibuMarketPlace.createNft(link_nft, pre_name_nft);
+    //   const newToken = await wibuNFT.createNFT(link_nft);
     //   console.log("newToken: ", newToken);
     // });
     // it("create nft 3", async function () {
     //   const link_nft =
     //     "https://wallpapers.com/images/high/sasuke-red-mark-4k-vq1e5g8c79on6j6n.webp";
-    //   const pre_name_nft = 1500000000;
     //   console.log("link nft: ", link_nft);
-    //   console.log("pre_name_nft: ", pre_name_nft);
-    //   const newToken = await wibuMarketPlace.createNft(link_nft, pre_name_nft);
+    //   const newToken = await wibuNFT.createNFT(link_nft);
     //   console.log("newToken: ", newToken);
     // });
     // it("create nft 4", async function () {
     //   const link_nft =
     //     "https://wallpapers.com/images/high/sasuke-lying-on-the-ground-4k-5cg6ronsv6b71c4d.webp";
-    //   const pre_name_nft = 1000000000;
     //   console.log("link nft: ", link_nft);
-    //   console.log("pre_name_nft: ", pre_name_nft);
-    //   const newToken = await wibuMarketPlace.createNft(link_nft, pre_name_nft);
+    //   const newToken = await wibuNFT.createNFT(link_nft);
     //   console.log("newToken: ", newToken);
     // });
     // it("create nft 5", async function () {
     //   const link_nft =
     //     "https://wallpapers.com/images/high/sasuke-black-4k-d3ak6v5zqruafeji.webp";
-    //   const pre_name_nft = 500000000;
     //   console.log("link nft: ", link_nft);
-    //   console.log("pre_name_nft: ", pre_name_nft);
-    //   const newToken = await wibuMarketPlace.createNft(link_nft, pre_name_nft);
+    //   const newToken = await wibuNFT.createNFT(link_nft);
     //   console.log("newToken: ", newToken);
     // });
   });
@@ -103,26 +95,69 @@ describe("NFTMarketplace", function () {
       expect(await wibuMarketPlace.get_owner()).to.equal(owner.address);
     });
 
+    // it("listed nft 1", async function () {
+    //   const tokenId = 1;
+    //   const price = 700000000;
+    //   const listedNFT = await wibuMarketPlace.ListedNFT(tokenId, price);
+    //   console.log("listedNFT: ", listedNFT);
+    // });
+    // it("listed nft 2", async function () {
+    //   const tokenId = 2;
+    //   const price = 850000000;
+    //   const listedNFT = await wibuMarketPlace.ListedNFT(tokenId, price);
+    //   console.log("listedNFT: ", listedNFT);
+    // });
+    // it("listed nft 3", async function () {
+    //   const tokenId = 3;
+    //   const price = 11000000000;
+    //   const listedNFT = await wibuMarketPlace.ListedNFT(tokenId, price);
+    //   console.log("listedNFT: ", listedNFT);
+    // });
+    // it("listed nft 4", async function () {
+    //   const tokenId = 4;
+    //   const price = 250000000;
+    //   const listedNFT = await wibuMarketPlace.ListedNFT(tokenId, price);
+    //   console.log("listedNFT: ", listedNFT);
+    // });
+    // it("listed nft 5", async function () {
+    //   const tokenId = 5;
+    //   const price = 900000000;
+    //   const listedNFT = await wibuMarketPlace.ListedNFT(tokenId, price);
+    //   console.log("listedNFT: ", listedNFT);
+    // });
+
+    // it("get NFT uri", async function () {
+    //   const tokenId = 1;
+    //   const uri = await wibuNFT.getNFTURI(tokenId);
+    //   console.log("uri: ", uri);
+    // });
+
     // it("get all nft ", async function () {
     //   const allNFT = await wibuMarketPlace.getAllNFTs();
     //   console.log("allNFT: ", allNFT);
     // });
 
-    // it("get all my nft ", async function () {
-    //   const allMyNFT = await wibuMarketPlace.getMyNFTs();
-    //   for (let i = 0; i < allMyNFT.length; i++) {
-    //     if (allMyNFT[i].owner != "0x0000000000000000000000000000000000000000") {
-    //       console.log(allMyNFT[i]);
+    it("get all my nft ", async function () {
+      const allMyNFT = await wibuNFT.getAllMyNft();
+      console.log("ALl my nft: ");
+      for (let i = 0; i < allMyNFT.length; i++) {
+        if (allMyNFT[i] != 0) {
+          console.log("NftID: ", allMyNFT[i]);
+        }
+      }
+    });
+
+    // it("get All Listed Tokens", async function () {
+    //   const allListedTokens = await wibuMarketPlace.getAllListedTokens();
+    //   for (let i = 0; i < allListedTokens.length; i++) {
+    //     if (
+    //       allListedTokens[i].owner !=
+    //       "0x0000000000000000000000000000000000000000"
+    //     ) {
+    //       console.log(allListedTokens[i]);
     //     }
     //   }
     // });
-
-    it("get All Listed Tokens", async function () {
-      const allListedTokens = await wibuMarketPlace.getAllListedTokens();
-      for (let i = 0; i < allListedTokens.length; i++) {
-        console.log(allListedTokens[i]);
-      }
-    });
 
     // it(" Edit price nft ", async function () {
     //   const tokenId = 5;
@@ -147,10 +182,8 @@ describe("NFTMarketplace", function () {
     //   const wibuToken = await WibuToken.attach(tokenAddress);
     //   await wibuToken.approve(wibuMarketPlaceAddress, NftBuyInfo.price);
     //   const buyNFT = await wibuMarketPlace.buyNft(tokenId);
-
     //   console.log("buyNFT: ", buyNFT);
     // });
-
     // it("currentlyListedMyNFTs", async function () {
     //   const listCurrentlyListedMyNFTs = [2];
     //   const currentlyListedMyNFTs = await wibuMarketPlace.currentlyListedMyNFT(
@@ -158,7 +191,6 @@ describe("NFTMarketplace", function () {
     //   );
     //   console.log("currentlyListedMyNFTs: ", currentlyListedMyNFTs);
     // });
-
     // it("transfer nft", async function () {
     //   const tokenId = 2;
     //   const WibuNFT = await ethers.getContractFactory("WibuNFT");

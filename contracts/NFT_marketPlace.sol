@@ -57,25 +57,24 @@ contract NFT_marketPlace {
         wibuNFT.approve(owner, _tokenId);
     }
 
-    function createNft(
-        string memory _NFT_url,
+    function ListedNFT(
+        uint256 _tokenId,
         uint256 _price
-    ) public returns (uint256) {
-        require(msg.sender == owner, "You are not the owner of this contract");
-        uint256 tokenId = wibuNFT.createNFT(_NFT_url);
+    ) public returns (ListedToken memory) {
+        // require(msg.sender == owner, "You are not the owner of this contract");
+        // uint256 tokenId = wibuNFT.createNFT(_NFT_url);
         totalNFTs++;
-        wibuNFT.approveNFT(tokenId);
-        wibuNFT.transferNFT(owner, tokenId);
-        idToListedToken[tokenId] = ListedToken(
-            tokenId,
-            payable(owner),
-            payable(owner),
+        // wibuNFT.approveNFT(_tokenId);
+        idToListedToken[_tokenId] = ListedToken(
+            _tokenId,
+            payable(msg.sender),
+            payable(msg.sender),
             _price,
             true
         );
-        emit TokenListedSuccess(tokenId, owner, owner, _price, true);
+        emit TokenListedSuccess(_tokenId, msg.sender, msg.sender, _price, true);
 
-        return tokenId;
+        return idToListedToken[_tokenId];
     }
 
     function getAllListedTokens() public view returns (ListedToken[] memory) {
