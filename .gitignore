@@ -1,1 +1,4 @@
-node_modules
+Account with test/node_modules
+Account with test/.env
+marketPlace/node_modules
+marketPlace/.env
