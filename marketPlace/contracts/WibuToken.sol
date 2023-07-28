@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract WibuToken is ERC20("Wibu Token", "WIBU"), Ownable {
-    uint256 private cap = 100000000000;
+    uint256 private cap = 10_000_000 * 10 ** 18;
 
     constructor() public {
         console.log("owner: %s", msg.sender);
