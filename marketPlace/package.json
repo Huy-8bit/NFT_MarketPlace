@@ -17,6 +17,7 @@
         "ethereum-waffle": "^4.0.10",
         "ethers": "^5.7.2",
         "hardhat": "^2.15.0",
+        "hardhat-etherscan": "^1.0.1",
         "url": "^0.11.0"
     },
     "dependencies": {
